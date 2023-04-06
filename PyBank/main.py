@@ -10,7 +10,10 @@ previous = 0
 #Reading CSV File
 
 csvpath = 'Challenges/03_Python_Challenge/python-challenge/PyBank/Resources/budget_data.csv'
-txtpath = 'Challenges/03_Python_Challenge/python-challenge/PyBank/analysis/analysis.txt'
+file = 'analysis/analysis.txt'
+# Specify the file to write to
+dirname = os.path.dirname(__file__)
+txtpath = os.path.join(dirname,file)
 
 with open(csvpath) as csvfile:
 
@@ -20,8 +23,8 @@ with open(csvpath) as csvfile:
     print(csvreader)
 
     # Read the header row first (skip this step if there is now header)
-    #csv_header = next(csvreader)
-    #print(f"CSV READ ---> CSV Header: {csv_header}")
+    csv_header = next(csvreader)
+    print(f"CSV READ ---> CSV Header: {csv_header}")
 
     # Read each row of data after the header
     for row in csvreader:
@@ -35,10 +38,10 @@ with open(csvpath) as csvfile:
 #Calculations
 
 delta_dict = dict(zip(delta, delta_month))
-delta_avg = (sum(delta))/(len(delta))
+delta_avg = (sum(total))/(len(total))
 greatest_increase = max(delta)
 greatest_decrease = min(delta)
-months = len(csvpath)
+months = len(total)
 gip = delta_dict[greatest_increase]
 gdp = delta_dict[greatest_decrease]
 

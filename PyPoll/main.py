@@ -1,5 +1,6 @@
 #Import dependencies
 import os, csv
+from decimal import *
 
 #Variables
 c = []
@@ -9,7 +10,12 @@ t = []
 #Reading CSV File
 
 csvpath = 'Challenges/03_Python_Challenge/python-challenge/PyPoll/Resources/election_data.csv'
-txtpath = 'Challenges/03_Python_Challenge/python-challenge/PyPoll/analysis/analysis.txt'
+file = 'analysis/analysis.txt'
+# Specify the file to write to
+dirname = os.path.dirname(__file__)
+txtpath = os.path.join(dirname,file)
+
+
 
 with open(csvpath) as csvfile:
 
@@ -19,8 +25,8 @@ with open(csvpath) as csvfile:
     print(csvreader)
 
     # Read the header row first (skip this step if there is now header)
-    #csv_header = next(csvreader)
-    #print(f"CSV READ ---> CSV Header: {csv_header}")
+    csv_header = next(csvreader)
+    print(f"CSV READ ---> CSV Header: {csv_header}")
 
     # Read each row of data after the header
     for row in csvreader:
@@ -49,6 +55,9 @@ w_dict = dict([('Charles Casper Stockham', c_total),('Diana DeGette', d_total),(
 per_c = (c_total/total_votes)*100
 per_d = (d_total/total_votes)*100
 per_r = (r_total/total_votes)*100
+per_c = Decimal(per_c).quantize(Decimal('1.000'))
+per_d = Decimal(per_d).quantize(Decimal('1.000'))
+per_r = Decimal(per_r).quantize(Decimal('1.000'))
 
 #Determine Winner
 winner = max(w_dict, key=w_dict.get)
@@ -62,7 +71,7 @@ print(f'Charles Casper Stockham: {per_c}% ({c_total})\n')
 print(f'Diana DeGette: {per_d}% ({d_total})\n')
 print(f'Raymon Anthony Doane: {per_r}% ({r_total})\n')
 print('----------------------------\n')
-print(f'WINNER WINNER CHICKEN DINNER: {winner}\n')
+print(f'Winner: {winner}\n')
 
 #Writing analysis.txt file
 try:
@@ -75,7 +84,7 @@ try:
         f.write(f'Diana DeGette: {per_d}% ({d_total})\n')
         f.write(f'Raymon Anthony Doane: {per_r}% ({r_total})\n')
         f.write('----------------------------\n')
-        f.write(f'WINNER WINNER CHICKEN DINNER: {winner}\n')
+        f.write(f'Winner: {winner}\n')
 
 except FileNotFoundError:
     print("The 'analysis' directory does not exist")
